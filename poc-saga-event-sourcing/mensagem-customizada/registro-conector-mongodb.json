@@ -1,0 +1,25 @@
+{
+   "name": "pedido-criado-connector",
+   "config": {
+        "connector.class": "io.debezium.connector.mongodb.MongoDbConnector",
+        "tasks.max": "1",
+        "mongodb.hosts": "mongo:27017",
+        "mongodb.user": "user",
+        "mongodb.password": "password",
+        "mongodb.name": "registro-conector-mongodb",
+        "database.history.kafka.bootstrap.servers": "kafka:29092",
+        "database.include.list": "pedido",
+        "collection.include.list": "pedido.outbox",
+        "include.schema.changes": "false",
+        "key.converter": "org.apache.kafka.connect.json.JsonConverter",
+        "key.converter.schemas.enable": "false",
+        "value.converter": "org.apache.kafka.connect.json.JsonConverter",
+        "value.converter.schemas.enable": "false",
+        "transforms": "bistro",
+        "transforms.bistro.type": "br.com.transformadorCustomizado.TransformadorCustomizado",
+        "transforms.bistro.add.headers.prefix": "",
+        "transforms.bistro.content-type": "application/json",
+        "transforms.bistro.app-name": "transformador-customizado",
+        "transforms.bistro.topic": "pedidos"
+   }
+}

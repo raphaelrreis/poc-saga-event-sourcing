@@ -1,0 +1,45 @@
+server.port: 8082
+
+spring:
+  
+  application.name: ms-cozinha
+  zipkin.base-url: http://localhost:9411/
+  sleuth.baggage.remote-fields: x-request-id, x-bacon
+  #zipkin.enabled: false
+
+  kafka:
+    bootstrap-servers: localhost:9092
+    group_id: ms-cozinha
+    auto-offset-reset: earliest
+
+  datasource:
+    url: jdbc:mysql://localhost:3306/cozinha?createDatabaseIfNotExist=true&useSSL=false
+    username: root
+  jpa:
+    hibernate.ddl-auto: update
+    show-sql: true
+
+topico.pedidos.nome: pedidos
+topico.comandas.nome: comandas
+topico.vendas.nome: vendas
+topico.vendas_reprovadas.nome: vendas_reprovadas
+
+ms-estoque.url: http://localhost:8086/estoque
+management.endpoint.health.show-details: always
+management.endpoints.web.exposure.include: '*'
+management.health.circuitbreakers.enabled: true
+
+resilience4j.circuitbreaker:
+  configs:
+    default:
+      registerHealthIndicator: true
+      slidingWindowSize: 10
+      permittedNumberOfCallsInHalfOpenState: 3
+      automaticTransitionFromOpenToHalfOpenEnabled: true
+      minimumNumberOfCalls: 5
+      waitDurationInOpenState: 2s
+      failureRateThreshold: 50
+      eventConsumerBufferSize: 100
+    instances:
+      ms-estoque-cb:
+        baseConfig: default

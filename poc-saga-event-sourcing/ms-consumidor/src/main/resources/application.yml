@@ -1,0 +1,20 @@
+server.port: 8081
+
+spring:
+
+  application.name: ms-consumidor
+  zipkin.base-url: http://localhost:9411/
+  sleuth.baggage.remote-fields: x-request-id, x-bacon
+  #zipkin.enabled: false
+
+  kafka:
+    bootstrap-servers: localhost:9092
+    group_id: ms-consumidor
+    auto-offset-reset: earliest
+
+  data.mongodb:
+    uri: mongodb://user:password@localhost:27017/consumidor
+    database: consumidor
+
+topico.pedidos.nome: pedidos
+topico.consumidores.nome: consumidores
